@@ -5,10 +5,14 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    warden.user
+  end
+
+  def warden
+    request.env['warden']
   end
 
   def authorize
-    redirect_to log_in_url, notice: 'Non authorized' if current_user.nil?
+    redirect_to log_in_url, notice: 'Non authorize' if current_user.nil?
   end
 end

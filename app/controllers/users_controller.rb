@@ -6,7 +6,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new users_params
     if @user.save
-      redirect_to root_url, notice: 'Logged in!'
+      warden.set_user(@user)
+      redirect_to secret_path, notice: 'Logged in!'
     else
       render 'new'
     end
